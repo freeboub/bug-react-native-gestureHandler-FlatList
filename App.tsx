@@ -1,20 +1,37 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { FlatList, View } from "react-native";
+import { Gesture, GestureDetector, GestureHandlerRootView } from "react-native-gesture-handler";
 
-export default function App() {
+const data = new Array(50).fill(0).map((_, index) => ({ id: index }))
+
+export const AnimatedFlatList = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+      <FlatList
+        data={data}
+        renderItem={() => {
+          return <View style={{
+                        height: 80,
+                        width: 80,
+                        backgroundColor: '#78CAD2',
+                        alignSelf: 'center',
+                        margin: 20,
+                }}
+            />
+        }}
+      />
+  )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const App = () => {
+  const panGesture = Gesture.Pan()
+  // const nativeGesture = Gesture.Native();
+  // const gesture = Gesture.Simultaneous(panGesture, nativeGesture);
+  return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <GestureDetector gesture={panGesture}>
+        <AnimatedFlatList/>
+      </GestureDetector>
+    </GestureHandlerRootView>
+  )
+}
+
+export default App
